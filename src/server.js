@@ -53,6 +53,22 @@ app.get('/cars/:id', (req, res) => {
 });
 
 
+//Update a car by ID 
+app.put('/cars/:id', (req, res) => {
+    const cars = readData();
+    const index = cars.findIndex(c => c.id === parseInt(req.params.id));
+
+    if (index === -1) {
+        return res.status(404).json({ error: 'Car not found' });
+    }
+
+    cars[index] = { ...cars[index], ...req.body };
+    writeData(cars);
+
+    res.json(cars[index]);
+});
+
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
