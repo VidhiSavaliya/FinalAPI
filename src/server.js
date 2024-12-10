@@ -69,6 +69,23 @@ app.put('/cars/:id', (req, res) => {
 });
 
 
+//Delete a car by ID
+app.delete('/cars/:id', (req, res) => {
+    const cars = readData();
+    const filteredCars = cars.filter(c => c.id !== parseInt(req.params.id));
+
+    if (cars.length === filteredCars.length) {
+        return res.status(404).json({ error: 'Car not found' });
+    }
+
+    writeData(filteredCars);
+    res.status(204).send(); 
+});
+
+app.use((req, res) => {
+    res.status(404).send(`Route ${req.url} not found`);
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
