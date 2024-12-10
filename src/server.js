@@ -40,6 +40,19 @@ app.get('/cars', (req, res) => {
     res.json(cars);
 });
 
+//Get a car by ID 
+app.get('/cars/:id', (req, res) => {
+    const cars = readData();
+    const car = cars.find(c => c.id === parseInt(req.params.id));
+
+    if (!car) {
+        return res.status(404).json({ error: 'Car not found' });
+    }
+
+    res.json(car);
+});
+
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
